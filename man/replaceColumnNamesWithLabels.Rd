@@ -1,11 +1,11 @@
 \name{replaceColumnNamesWithLabels}
 \alias{replaceColumnNamesWithLabels}
-\title{Get a column of a formhubData object, but with its values replaced by labels}
+\title{Get a column of a onaData object, but with its values replaced by labels}
 \usage{
-replaceColumnNamesWithLabels(formhubDataObj, colname)
+replaceColumnNamesWithLabels(onaDataObj, colname)
 }
 \arguments{
-  \item{formhubDataObj}{is the formhub data object to
+  \item{onaDataObj}{is the ona data object to
   operate on}
 
   \item{colname}{is the column name we want to revalue and
@@ -15,11 +15,11 @@ replaceColumnNamesWithLabels(formhubDataObj, colname)
 A vector of re-valued data
 }
 \description{
-Get a column of a formhubData object, but with its values
+Get a column of a onaData object, but with its values
 replaced by labels
 }
 \examples{
-good_eats <- formhubDownload("good_eats", "mberg")
+good_eats <- onaDownload("good_eats", "mberg")
 replaceColumnNamesWithLabels(good_eats, 'rating')
 }
 

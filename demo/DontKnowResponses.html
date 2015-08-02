@@ -195,11 +195,11 @@ hr {
 
 <p>In our surveys, we have found it useful to include a <em>Don&#39;t Know / Information Not Available</em> option when asking mutliple-choice questions. When users select this option, we also ask them why this information wasn&#39;t available. This is similar to allowing for an <em>other</em> option, and asking enumerators to <em>Please Specify Other</em>. In the response to the follow-up question, enumerators enter free-form text. This article helps survey managers analyze such free-form text data. We are looking at real data from a recent facilities survey in Nigeria. The analysis below was very similar to the actual analysis we conducted after a pilot survey, to analyze how to improve our surveys better.  </p>
 
-<p>In this demo, we will use the <code>formhub</code> and <code>tm</code> (text mining) packages in R to download data from formhub, and look at answers from a survey on schoools. Before we go any further, we will load our schools dataset into R. If you haven&#39;t used formhub.R before, please read the <a href="http://sel-columbia.github.io/formhub.R/demo/Basics_of_formhub.R.html">basics tutorial</a> to learn how to load your own formhub data into R.</p>
+<p>In this demo, we will use the <code>ona</code> and <code>tm</code> (text mining) packages in R to download data from ona, and look at answers from a survey on schoools. Before we go any further, we will load our schools dataset into R. If you haven&#39;t used ona.R before, please read the <a href="http://sel-columbia.github.io/ona.R/demo/Basics_of_ona.R.html">basics tutorial</a> to learn how to load your own ona data into R.</p>
 
-<pre><code class="r">require(formhub)  # See http://sel-columbia.github.io/formhub.R/ for install instructions if you get an error
+<pre><code class="r">require(ona)  # See http://sel-columbia.github.io/ona.R/ for install instructions if you get an error
 require(tm)  # Run install.packages(&#39;tm&#39;) if you get an error
-edu &lt;- formhubRead(&quot;~/Downloads/mopup_questionnaire_education_final_2014_04_02_08_15_46.csv&quot;, 
+edu &lt;- onaRead(&quot;~/Downloads/mopup_questionnaire_education_final_2014_04_02_08_15_46.csv&quot;, 
     &quot;~/Downloads/mopup_questionnaire_education_final.json&quot;)
 </code></pre>
 
@@ -503,7 +503,7 @@ wordcloud(dontknow_corpus)
 
 <h2>Reproducing this work</h2>
 
-<p>We hope that you are able to benefit from similar analysis yourself as well. If you have R installed, you should be able to run R code very similar to what you see on this page, as long as you put in the correct filenames and column names. In fact, the last block of code is designed to be copy-pasted; as long as you change the line marked CHANGE, you should be able to reproduce this analysis for your own datase. For questions, please contact the formhub-users <a href="https://groups.google.com/d/forum/formhub-users">Google group</a>.</p>
+<p>We hope that you are able to benefit from similar analysis yourself as well. If you have R installed, you should be able to run R code very similar to what you see on this page, as long as you put in the correct filenames and column names. In fact, the last block of code is designed to be copy-pasted; as long as you change the line marked CHANGE, you should be able to reproduce this analysis for your own datase. For questions, please contact the ona-users <a href="https://groups.google.com/d/forum/ona-users">Google group</a>.</p>
 
 </body>
 
