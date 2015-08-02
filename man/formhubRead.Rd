@@ -37,7 +37,7 @@ downloaded from ona.io for the same form.
 }
 \examples{
 # will need to download data.csv and form.json for a specific form on formhub, for below, download
-http://ona.io/mberg/forms/good_eats/data.csv http://ona.io/mberg/forms/good_eats/form.json
+https://ona.io/mberg/forms/good_eats/data.csv https://ona.io/mberg/forms/good_eats/form.json
 good_eats <- formhubRead("~/Downloads/good_eats_2013_05_05.csv", "~/Downloads/good_eats.json")
 head(good_eats) # is a data frame of all the data
 good_eatsX <- formhubRead("~/Downloads/good_eats_2013_05_05.csv", "~/Downloads/good_eats.json",

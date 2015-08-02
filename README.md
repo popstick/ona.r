@@ -2,7 +2,7 @@
 formhub.R
 =========
 
-formhub.R is a library for making reading data form [ona.io](http://ona.io) into R easier.
+formhub.R is a library for making reading data form [ona.io](https://ona.io) into R easier.
 <a href="https://github.com/SEL-Columbia/formhub.R"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
 Examples
