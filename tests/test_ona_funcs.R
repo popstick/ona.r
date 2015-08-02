@@ -2,8 +2,8 @@ require(testthat)
 require(stringr)
 
 test_dir = ""
-# test_dir = "~/Code/formhub.R/tests/"
-# test_file("~/Code/formhub.R/tests/test_formhub_funcs.R")
+# test_dir = "~/Code/ona.R/tests/"
+# test_file("~/Code/ona.R/tests/test_ona_funcs.R")
 
 edu_datafile <- str_c(test_dir, "fixtures/edu1.csv")
 edu_formfile <- str_c(test_dir, "fixtures/edu1.json")
@@ -15,16 +15,16 @@ pde_formfile <- str_c(test_dir, "fixtures/pde.json")
 
 # Header Names with Labels works
 test_that("replaceHeaderNamesWithLabels basically works", {
-  edu_formhubObj <- formhubRead(edu_datafile, edu_formfile)
-  good_eats <- formhubRead(good_eats_datafile, good_eats_formfile)
+  edu_onaObj <- onaRead(edu_datafile, edu_formfile)
+  good_eats <- onaRead(good_eats_datafile, good_eats_formfile)
   
-  edu_formhubObj_replaced <- replaceHeaderNamesWithLabels(edu_formhubObj)
+  edu_onaObj_replaced <- replaceHeaderNamesWithLabels(edu_onaObj)
   good_eats_replaced <- replaceHeaderNamesWithLabels(good_eats)
   
-  expect_equal(class(edu_formhubObj_replaced), "data.frame")
+  expect_equal(class(edu_onaObj_replaced), "data.frame")
   expect_equal(class(good_eats_replaced), "data.frame")
   
-  expect_false(any(names(edu_formhubObj_replaced) == "NA"))
+  expect_false(any(names(edu_onaObj_replaced) == "NA"))
   expect_false(any(names(good_eats_replaced) == "NA"))
   
   expect_true(all(c("submit_date", "imei", "X_gps_longitude","Rating","Type of Eat", "Food Pic")
@@ -33,11 +33,11 @@ test_that("replaceHeaderNamesWithLabels basically works", {
                     "LGA", "mylga", "num_ss_total_calc", "TOTAL students in Senior Secondary 1 thugh 3",
                     "23. What type(s) of power sources are available at this school? >> Generator",
                     "23. What type(s) of power sources are available at this school? >> None")
-              %in% names(edu_formhubObj_replaced)))
+              %in% names(edu_onaObj_replaced)))
 })
  
 test_that("replaceAllNamesWithLabels works on good_eats", {
-  good_eats <- formhubRead(good_eats_datafile, good_eats_formfile)
+  good_eats <- onaRead(good_eats_datafile, good_eats_formfile)
   good_eats_replaced <- replaceAllNamesWithLabels(good_eats)
   
   expect_equal(class(good_eats_replaced), "data.frame")
@@ -53,7 +53,7 @@ test_that("replaceAllNamesWithLabels works on good_eats", {
 })
 
 test_that("replace Functions work with dot-replaced names", {
-  good_eats <- formhubRead(good_eats_datafile, good_eats_formfile)
+  good_eats <- onaRead(good_eats_datafile, good_eats_formfile)
   names(good_eats)[3] <- 'food.type' # R replaces characters with dot sometimes
                                      # doesn't replace _, but we don't have better
                                      # test data at the moment
@@ -73,7 +73,7 @@ test_that("replace Functions work with dot-replaced names", {
 
 # Replace works with multi-lingual forms
 test_that("replace Functions work with multi-lingual forms", {
-    pde <- formhubRead(pde_datafile, pde_formfile)
+    pde <- onaRead(pde_datafile, pde_formfile)
     pde_names_replaced <- replaceHeaderNamesWithLabels(pde)
     pde_replaced_en <- replaceAllNamesWithLabels(pde, "English")
     pde_replaced_fr <- replaceAllNamesWithLabels(pde, "French")
@@ -97,7 +97,7 @@ test_that("replace Functions work with multi-lingual forms", {
 
 # Adding photo URLs work
 test_that("adding photo urls works", {
-  good_eats <- formhubRead(good_eats_datafile, good_eats_formfile)
+  good_eats <- onaRead(good_eats_datafile, good_eats_formfile)
   good_eats_with_photo_urls <- addPhotoURLs(good_eats, 'mberg')
   # check that new columns were added
   expect_true(all(c("food_photo_URL_original", "food_photo_URL_medium", "food_photo_URL_small",
@@ -118,40 +118,40 @@ test_that("adding photo urls works", {
 
 # Re-mapping field values works
 test_that("remapAllColumns can map values", {
-  edu_formhubObj <- formhubRead(edu_datafile, edu_formfile)
-  edu_mapped <- remapAllColumns(edu_formhubObj, remap = c("yes"=TRUE, "no"=FALSE))
-  expect_equal(mean(edu_formhubObj$nomadic_school_yn == 'yes', na.rm=T), mean(edu_mapped$nomadic_school_yn, na.rm=T))
+  edu_onaObj <- onaRead(edu_datafile, edu_formfile)
+  edu_mapped <- remapAllColumns(edu_onaObj, remap = c("yes"=TRUE, "no"=FALSE))
+  expect_equal(mean(edu_onaObj$nomadic_school_yn == 'yes', na.rm=T), mean(edu_mapped$nomadic_school_yn, na.rm=T))
   
-  good_eats <- formhubRead(good_eats_datafile, good_eats_formfile)
+  good_eats <- onaRead(good_eats_datafile, good_eats_formfile)
   ge_mapped <- remapAllColumns(good_eats, remap = c("high_risk" = TRUE, "medium_risk" = FALSE, "low_risk" = NA))
   expect_equal(mean(ge_mapped$risk_factor),
                sum(good_eats$risk_factor =="high_risk") / sum(good_eats$risk_factor %in% c("high_risk", "medium_risk")))
 })
 
 test_that("remapAllColumns doesn't map values unless all values in data are in remap", {
-  edu_formhubObj <- formhubRead(edu_datafile, edu_formfile)
-  edu_mapped <- remapAllColumns(edu_formhubObj, remap = c("yes"=TRUE))
-  expect_equivalent(edu_formhubObj$nomadic_school_yn, edu_mapped$nomadic_school_yn)
+  edu_onaObj <- onaRead(edu_datafile, edu_formfile)
+  edu_mapped <- remapAllColumns(edu_onaObj, remap = c("yes"=TRUE))
+  expect_equivalent(edu_onaObj$nomadic_school_yn, edu_mapped$nomadic_school_yn)
   
-  good_eats <- formhubRead(good_eats_datafile, good_eats_formfile)
+  good_eats <- onaRead(good_eats_datafile, good_eats_formfile)
   ge_mapped <- remapAllColumns(good_eats, remap = c("high_risk" = TRUE, "medium_risk" = FALSE))
   expect_true(all(apply(good_eats == ge_mapped, 2, all, na.rm=T)))
 })
 
 test_that("remapAllColumns works with various strictness parameters", {
-  edu_formhubObj <- formhubRead(edu_datafile, edu_formfile)
-  edu_mapped <- remapAllColumns(edu_formhubObj, remap = c("yes"=TRUE, "no"=FALSE, "dk"=NA), strictness="any_found")
+  edu_onaObj <- onaRead(edu_datafile, edu_formfile)
+  edu_mapped <- remapAllColumns(edu_onaObj, remap = c("yes"=TRUE, "no"=FALSE, "dk"=NA), strictness="any_found")
   expect_true(is.logical(edu_mapped$nomadic_school_yn))
   expect_true(is.logical(edu_mapped$generator_funct_yn))
-  expect_true(sum(unlist(colwise(is.logical)(edu_mapped))) == 4 + sum(unlist(llply(edu_formhubObj, is.logical))))
+  expect_true(sum(unlist(colwise(is.logical)(edu_mapped))) == 4 + sum(unlist(llply(edu_onaObj, is.logical))))
   
-  edu_mapped <- remapAllColumns(edu_formhubObj, remap = c("yes"=TRUE, "no"=FALSE), strictness="exact")
+  edu_mapped <- remapAllColumns(edu_onaObj, remap = c("yes"=TRUE, "no"=FALSE), strictness="exact")
   expect_true(is.logical(edu_mapped$nomadic_school_yn))
   expect_false(is.logical(edu_mapped$generator_funct_yn))
-  expect_true(sum(unlist(colwise(is.logical)(edu_mapped))) == 1 + sum(unlist(llply(edu_formhubObj, is.logical))))
+  expect_true(sum(unlist(colwise(is.logical)(edu_mapped))) == 1 + sum(unlist(llply(edu_onaObj, is.logical))))
   
-  edu_mapped <- remapAllColumns(edu_formhubObj, remap = c("yes"=TRUE), strictness="all_found")
+  edu_mapped <- remapAllColumns(edu_onaObj, remap = c("yes"=TRUE), strictness="all_found")
   expect_false(is.logical(edu_mapped$nomadic_school_yn))
   expect_true(is.logical(edu_mapped$generator_funct_yn))
-  expect_true(sum(unlist(colwise(is.logical)(edu_mapped))) == 3 + sum(unlist(llply(edu_formhubObj, is.logical))))
+  expect_true(sum(unlist(colwise(is.logical)(edu_mapped))) == 3 + sum(unlist(llply(edu_onaObj, is.logical))))
 })
