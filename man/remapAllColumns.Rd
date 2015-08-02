@@ -1,8 +1,8 @@
 \name{remapAllColumns}
 \alias{remapAllColumns}
-\title{Remap all of the columns of the ona data object according to the remap_list}
+\title{Remap all of the columns of the formhub data object according to the remap_list}
 \usage{
-remapAllColumns(onaDataObj, remap, strictness = "all_found")
+remapAllColumns(formhubDataObj, remap, strictness = "all_found")
 }
 \arguments{
   \item{remap}{A vector. The name is what to map, and the
@@ -21,10 +21,10 @@ remapAllColumns(onaDataObj, remap, strictness = "all_found")
 A data.frame with values replaced.
 }
 \description{
-Remap all of the columns of the ona data object
+Remap all of the columns of the formhub data object
 according to the remap_list
 }
 \examples{
-good_eats <- onaDownload("good_eats", "mberg")
+good_eats <- formhubDownload("good_eats", "mberg")
 }
 
