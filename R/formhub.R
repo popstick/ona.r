@@ -79,7 +79,7 @@ replaceHeaderNamesWithLabels <- function(formhubDataObj) {
     } 
     # replace the name if exactly one other label matches
     if(length(index) == 1 && !is.na(formhubDataObj@form$label[[index]])) {
-       formhubDataObj@form$label[[index]]
+       formhubDataObj@form$label[[indexo]
     } else {
       nm
     }
@@ -213,7 +213,7 @@ replaceAllNamesWithLabels <- function(formhubDataObj, language=NULL) {
 #' good_eats # is a data frame of all the data
 #' good_eats@form # is the form for that data, encoded as a dataframe
 #' privateData <- formhubDownload("Private_Data_For_Testing", uname="formhub_r", pass="t3st~p4ss")
-formhubDownload = function(formName, uname, pass=NA, authfile=NA, url='https://ona.io/', ...) {
+formhubDownload = function(formName, uname, pass=NA, authfile=NA, url='https://classic.ona.io/', ...) {
   fUrl <- function(formName, uname, form=F) {
     str_c(url, uname, '/forms/', formName,
           ifelse(form,'/form.json', '/data.csv'))
